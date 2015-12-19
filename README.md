@@ -48,3 +48,12 @@ or if your not using decorators you can just wrap the component with the stateVa
 ```javascript
 export stateValidation(App)
 ```
+
+## Contributing
+
+Plz do it! oh and run `npm test`. I use [standard](http://standardjs.com/) for code style/linting, and [ava](https://github.com/sindresorhus/ava) for testing.
+
+
+## Cool modules to use with this
+
+- [react-validator-prop-types](https://www.npmjs.com/package/react-validator-prop-types)
