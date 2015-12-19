@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jcblw/react-form-validation.git"
+    "url": "git+https://github.com/jcblw/react-state-validation.git"
   },
   "keywords": [
     "react",
@@ -23,9 +23,9 @@
   "author": "Jacob Lowe",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jcblw/react-form-validation/issues"
+    "url": "https://github.com/jcblw/react-state-validation/issues"
   },
-  "homepage": "https://github.com/jcblw/react-form-validation#readme",
+  "homepage": "https://github.com/jcblw/react-state-validation#readme",
   "devDependencies": {
     "ava": "^0.7.0",
     "babel": "^5.8.34",
