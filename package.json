@@ -1,0 +1,39 @@
+{
+  "name": "react-state-validation",
+  "version": "0.0.1",
+  "description": "A way to do some simple form validation in React with a similar syntax as PropType validation",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "standard src/ && npm run compile && ava",
+    "compile": "babel src --stage 0 --modules common --out-dir lib",
+    "watch": "babel src --stage 0 --modules common --out-dir lib --watch",
+    "prepublish": "npm run compile"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jcblw/react-form-validation.git"
+  },
+  "keywords": [
+    "react",
+    "form",
+    "validation",
+    "proptypes",
+    "state"
+  ],
+  "author": "Jacob Lowe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jcblw/react-form-validation/issues"
+  },
+  "homepage": "https://github.com/jcblw/react-form-validation#readme",
+  "devDependencies": {
+    "ava": "^0.7.0",
+    "babel": "^5.8.34",
+    "browserify": "^12.0.1",
+    "standard": "^5.4.1"
+  },
+  "dependencies": {
+    "invariant": "^2.2.0",
+    "react": "^0.14.3"
+  }
+}
