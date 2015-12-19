@@ -6,6 +6,7 @@ function stateValidation (DecoratedComponent) {
   invariant(DecoratedComponent, 'A React component needs to be passed to the decorator')
   const {stateValidations, prototype} = DecoratedComponent
   const {setState: _setState, displayName} = prototype
+  const validations = stateValidations || {}
   DecoratedComponent.prototype.setState = function setState (state = {}) {
     state.errors = {}
     for (let key in state) {
@@ -13,7 +14,7 @@ function stateValidation (DecoratedComponent) {
         state,
         key,
         displayName,
-        validations: stateValidations
+        validations
       })
       if (validation) {
         state.errors[key] = flattenErrors(validation)
