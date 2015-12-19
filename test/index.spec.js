@@ -23,6 +23,26 @@ test('the stateValidation method should overwrite a classes setState method', t 
   t.pass()
 })
 
+test('the stateValidation metho should validate any state that is intialized in the class', t => {
+  class Foo {
+    constructor () {
+      this.state = {foo: 'bar'}
+    }
+    setState (_state) {}
+  }
+  Foo.stateValidations = {
+    foo: () => {
+      return new Error('baz')
+    }
+  }
+  const Qux = stateValidation(Foo)
+  const qux = new Qux({})
+  t.is(typeof qux.state.errors, 'object')
+  t.true(Array.isArray(qux.state.errors.foo))
+  t.is(qux.state.errors.foo[0], 'baz')
+  t.pass()
+})
+
 test('the stateValidation method should call the original setState method after it has ran the overwritten setState and pass the new version of state', t => {
   class Foo {
     setState (_state) {
@@ -82,7 +102,7 @@ test('the stateValidations method pass in (state, stateKey, componentName) to th
       t.pass()
     }
   }
-  Foo.prototype.displayName = 'Foo'
+  Foo.displayName = 'Foo'
   Foo.stateValidations = {
     foo: (state, stateKey, componentName) => {
       t.is(typeof state, 'object')

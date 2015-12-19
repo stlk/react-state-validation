@@ -4,25 +4,43 @@ import invariant from 'invariant'
 
 function stateValidation (DecoratedComponent) {
   invariant(DecoratedComponent, 'A React component needs to be passed to the decorator')
-  const {stateValidations, prototype} = DecoratedComponent
-  const {setState: _setState, displayName} = prototype
+  const {stateValidations, prototype, propTypes, defaultProps, displayName} = DecoratedComponent
+  const {setState: _setState, constructor: _super} = prototype
   const validations = stateValidations || {}
-  DecoratedComponent.prototype.setState = function setState (state = {}) {
-    state.errors = {}
-    for (let key in state) {
-      const validation = validateKey({
-        state,
-        key,
-        displayName,
-        validations
-      })
-      if (validation) {
-        state.errors[key] = flattenErrors(validation)
-      }
+
+  function StateValidation (...args) {
+    const ret = _super.call(this, ...args)
+    if (this.state) {
+      const _state = Object.assign({errors: {}}, this.state)
+      this.state = validateState(_state, displayName, validations)
     }
-    _setState.call(this, state)
+    return ret
   }
-  return DecoratedComponent
+  StateValidation.prototype = prototype
+  StateValidation.prototype.setState = function setState (state = {}) {
+    const _state = Object.assign({errors: {}}, this.state || {}, state)
+    _setState.call(this, validateState(_state, displayName, validations))
+  }
+  StateValidation.displayName = `StateValidation(${displayName})`
+  StateValidation.propTypes = propTypes
+  StateValidation.defaultProps = defaultProps
+  StateValidation.stateValidations = stateValidations
+  return StateValidation
+}
+
+function validateState (state, displayName, validations) {
+  for (let key in state) {
+    const validation = validateKey({
+      state,
+      key,
+      displayName,
+      validations
+    })
+    if (validation) {
+      state.errors[key] = flattenErrors(validation)
+    }
+  }
+  return state
 }
 
 function validateKey ({state, key, validations, displayName}) {
