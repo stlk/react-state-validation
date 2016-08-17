@@ -36,9 +36,7 @@ function validateState (state, displayName, validations) {
       displayName,
       validations
     })
-    if (validation) {
-      state.errors[key] = flattenErrors(validation)
-    }
+    state.errors[key] = flattenErrors(validation)
   }
   return state
 }
@@ -55,7 +53,9 @@ function flattenErrors (err) {
   if (typeof err === 'object' && err.length) {
     return err.map((_err) => _err.message)
   }
-  return [err.message]
+  if (err) {
+    return [err.message]
+  }
 }
 
 export {stateValidation, validateKey, flattenErrors}

@@ -3,6 +3,9 @@
 import test from 'ava'
 import {stateValidation, validateKey, flattenErrors} from '../lib'
 
+import React, { Component } from 'react'
+import { shallow, mount } from 'enzyme';
+
 test('the stateValidation method is a function', t => {
   t.is(typeof stateValidation, 'function')
   t.pass()
@@ -75,6 +78,31 @@ test('the stateValidation method should pass back an array with strings in it if
   const Qux = stateValidation(Foo)
   const qux = new Qux()
   qux.setState({foo: 'bar'})
+})
+
+test('the stateValidation method should reset validation errors to undefined when no errors are returned', t => {
+  class Foo extends Component {
+    render() {
+      return <div></div>
+    }
+  }
+  Foo.stateValidations = {
+    foo: (state, stateKey, componentName) => {
+      if(!state[stateKey]) {
+        return new Error('error')
+      }
+    }
+  }
+  const Qux = stateValidation(Foo)
+  const qux = shallow(<Qux />)
+  qux.setState({foo: ''})
+  qux.setState({foo: 'bar'})
+
+  const _state = qux.state();
+  t.is(typeof _state, 'object')
+  t.is(typeof _state.errors, 'object')
+  t.is(_state.errors.foo, undefined)
+  t.pass()
 })
 
 test('the stateValidation method should pass back an array with many strings if an array of errors is passed back from validation', t => {
