@@ -11,8 +11,7 @@ function stateValidation (DecoratedComponent) {
   function StateValidation (...args) {
     const ret = _super.call(this, ...args)
     if (this.state) {
-      const _state = Object.assign({errors: {}}, this.state)
-      this.state = validateState(_state, displayName, validations)
+      this.state = Object.assign({errors: {}}, this.state)
     }
     return ret
   }
