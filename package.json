@@ -1,6 +1,6 @@
 {
-  "name": "react-state-validation",
-  "version": "0.1.0",
+  "name": "react-state-validation-stlk",
+  "version": "0.1.5",
   "description": "A way to do some simple form validation in React with a similar syntax as PropType validation",
   "main": "lib/index.js",
   "scripts": {
