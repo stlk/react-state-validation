@@ -20,6 +20,9 @@ function stateValidation (DecoratedComponent) {
     const _state = Object.assign({errors: {}}, this.state || {}, state)
     _setState.call(this, validateState(_state, displayName, this.stateValidations || validations))
   }
+  StateValidation.prototype.validate = function validate () {
+    this.setState({validateCalled: true})
+  }
   StateValidation.displayName = `StateValidation(${displayName})`
   StateValidation.propTypes = propTypes
   StateValidation.defaultProps = defaultProps
@@ -28,6 +31,8 @@ function stateValidation (DecoratedComponent) {
 }
 
 function validateState (state, displayName, validations) {
+  if (!state.validateCalled) return state;
+
   for (let key in state) {
     const validation = validateKey({
       state,
