@@ -23,7 +23,7 @@ function stateValidation (DecoratedComponent) {
   StateValidation.displayName = `StateValidation(${displayName})`
   StateValidation.propTypes = propTypes
   StateValidation.defaultProps = defaultProps
-  StateValidation.stateValidations = stateValidations
+  StateValidation.stateValidations = validations
   return StateValidation
 }
 
