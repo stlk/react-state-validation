@@ -18,7 +18,7 @@ function stateValidation (DecoratedComponent) {
   StateValidation.prototype = prototype
   StateValidation.prototype.setState = function setState (state = {}) {
     const _state = Object.assign({errors: {}}, this.state || {}, state)
-    _setState.call(this, validateState(_state, displayName, validations))
+    _setState.call(this, validateState(_state, displayName, this.stateValidations || validations))
   }
   StateValidation.displayName = `StateValidation(${displayName})`
   StateValidation.propTypes = propTypes
