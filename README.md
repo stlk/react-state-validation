@@ -1,16 +1,22 @@
-# React State Validation
+# React tiny state validation
 
-[![Build Status](https://travis-ci.org/jcblw/react-state-validation.svg)](https://travis-ci.org/jcblw/react-state-validation)
+Validates state using defined validation functions.
 
-React State Validation uses the propTypes validation pattern to validate states.
+## Instalation
+
+```
+npm install react-tiny-state-validation
+```
 
 ## Usage
 
-The `stateValidation` method can be used a decorator.
+The `stateValidation` method can be used as a decorator. State is **not validated** until `this.validate()` function is called.
+
+You can define `stateValidations` as a static variable or dynamically in constructor using `this.stateValidations = ...`.
 
 ```javascript
 import React, {Component} from 'react'
-import {stateValidation} from 'react-state-validation'
+import {stateValidation} from 'react-tiny-state-validation'
 const stateValidations = {
   customState: function(state, stateName, componentName) {
     if (!/matchme/.test(state[stateName])) {
@@ -19,7 +25,6 @@ const stateValidations = {
   }
 }
 
-
 @stateValidation
 class App extends Component {
   constructor () {
@@ -27,6 +32,16 @@ class App extends Component {
     this.state = {
       customState: ''
     }
+  }
+
+  _handleSubmit = (e) => {
+    e.preventDefault();
+    this.validate();
+    const { errors } = this.state;
+    if(!Object.keys(errors).every((k) => !errors[k])) {
+      return null;
+    }
+    // Validations passed you can now submit the data
   }
 
   render () {
@@ -43,7 +58,7 @@ class App extends Component {
 App.stateValidations = stateValidations
 ```
 
-or if your not using decorators you can just wrap the component with the stateValidation method.
+or if you're not using decorators, you can just wrap the component with the `stateValidation` method.
 
 ```javascript
 export stateValidation(App)
@@ -52,8 +67,3 @@ export stateValidation(App)
 ## Contributing
 
 Plz do it! oh and run `npm test`. I use [standard](http://standardjs.com/) for code style/linting, and [ava](https://github.com/sindresorhus/ava) for testing.
-
-
-## Cool modules to use with this
-
-- [react-validator-prop-types](https://www.npmjs.com/package/react-validator-prop-types)
